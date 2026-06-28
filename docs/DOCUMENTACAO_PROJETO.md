@@ -1,7 +1,6 @@
 # Documentação do Projeto — Monitoramento de Temperatura usando BLE e ESP32
 
-> Documento referente ao **Item 8 (Entrega)** da especificação da atividade.
-> Autor(es): Henrique Eduardo Simonato — 2221101008 *(ajuste/inclua o nome da dupla)*
+> Autor: Henrique Eduardo Simonato — 2221101008
 
 ---
 
@@ -207,7 +206,7 @@ flowchart TD
 
 ## 4. Tabela GATT (Serviços e Características)
 
-Tabela completa, extraída diretamente das constantes e propriedades definidas no firmware (`teste.ino`), referente ao detalhamento solicitado na seção 5 da especificação.
+Tabela completa, extraída diretamente das constantes e propriedades definidas no firmware (`teste.ino`).
 
 | Serviço | UUID do Serviço | Característica | UUID da Característica | Propriedades | Formato / Funcionamento |
 |---|---|---|---|---|---|
@@ -218,20 +217,20 @@ Tabela completa, extraída diretamente das constantes e propriedades definidas n
 | **3. Indicadores de Conexão** | `5b1d1a00-0011-4a2e-9e2a-222222222222` (custom 128-bit) | RSSI | `5b1d1a00-0012-4a2e-9e2a-222222222222` | `READ`, `NOTIFY` | String ASCII com valor de RSSI em dBm (`ble_gap_conn_rssi`). Notificada a cada 1 s. |
 | | | Contador de Notificações | `5b1d1a00-0013-4a2e-9e2a-222222222222` | `READ` | String ASCII com a quantidade de notificações de dados enviadas no último minuto de conexão. |
 
-### Parâmetros de rádio aplicados (Seção 4.1 da especificação)
+### Parâmetros de rádio aplicados
 
-| Parâmetro | Valor configurado no código | Conferência com a especificação |
-|---|---|---|
-| Advertising Interval | `setMinInterval(640)` / `setMaxInterval(640)` → 640 × 0,625 ms = **400 ms** | ✅ OK (especificação pede 400 ms) |
-| Min Connection Interval | 40 × 1,25 ms = **50 ms** | ✅ OK |
-| Max Connection Interval | 80 × 1,25 ms = **100 ms** | ✅ OK |
-| Slave Latency | **0** | ✅ OK |
-| Supervision Timeout | 200 × 10 ms = **2000 ms** | ✅ OK |
+| Parâmetro | Valor configurado no código |
+|---|---|
+| Advertising Interval | `setMinInterval(640)` / `setMaxInterval(640)` → 640 × 0,625 ms = **400 ms** |
+| Min Connection Interval | 40 × 1,25 ms = **50 ms** |
+| Max Connection Interval | 80 × 1,25 ms = **100 ms** |
+| Slave Latency | **0** |
+| Supervision Timeout | 200 × 10 ms = **2000 ms** |
 
-### Segurança (Seção 4.2)
+### Segurança
 
 - Pareamento configurado via `NimBLEDevice::setSecurityAuth(true, true, true)` (Bonding + MITM + Secure Connections) e `setSecurityIOCap(BLE_HS_IO_DISPLAY_ONLY)` → modelo **Passkey Entry**, com senha estática definida em `BLE_PASSKEY` (`123456`).
-- ⚠️ **Observação para o relatório**: no código atual, o comentário `// Flags _ENC removidas temporariamente (modo teste sem seguranca)` indica que as *flags* de criptografia (`NIMBLE_PROPERTY::READ_ENC` / `WRITE_ENC`) foram retiradas das características durante os testes. A negociação de segurança a nível de conexão (passkey/MITM) continua ativa em `onConnect`, mas vale registrar esse ponto como uma pendência/nota de manutenção na documentação, já que a especificação pede que a conexão exija criptografia com autenticação.
+- ⚠️ **Observação para o relatório**: no código atual, o comentário `// Flags _ENC removidas temporariamente (modo teste sem seguranca)` indica que as *flags* de criptografia (`NIMBLE_PROPERTY::READ_ENC` / `WRITE_ENC`) foram retiradas das características durante os testes. A negociação de segurança a nível de conexão (passkey/MITM) continua ativa em `onConnect`, mas vale registrar esse ponto como uma pendência/nota de manutenção na documentação, já que a conexão deveria exigir criptografia com autenticação.
 
 ---
 
@@ -374,7 +373,7 @@ classDiagram
 - Projeto React Native (Expo ou bare workflow, conforme a estrutura do repositório).
 - Dispositivo ou emulador **Android 10+** com Bluetooth e Localização habilitados (exigidos pelo BLE no Android).
 
-**Passos sugeridos (ajustar conforme o `package.json` real do projeto):**
+**Passos sugeridos:**
 1. Clone o repositório e entre na pasta do app.
 2. Instale as dependências: `npm install` (ou `yarn install`).
 3. Para testar em desenvolvimento: `npx expo start` e abra no dispositivo via Expo Go, **ou** `npx expo run:android` para gerar um build de desenvolvimento.
